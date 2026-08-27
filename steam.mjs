@@ -7,6 +7,7 @@ Commands (API キー不要のエンドポイントのみ):
   news <appid> [count]         ゲームのニュース (デフォルト 3 件)
   achievements <appid>         グローバル実績達成率
   details <appid>              ストアのアプリ詳細
+  reviews <appid>              レビュー数のサマリー (好評/不評など)
   search <term>                ストア内検索
 
 Examples:
@@ -47,6 +48,13 @@ const commands = {
       `https://store.steampowered.com/api/appdetails?appids=${appid}&cc=jp&l=japanese`
     );
     return data[appid];
+  },
+
+  async reviews([appid]) {
+    const data = await getJson(
+      `https://store.steampowered.com/appreviews/${appid}?json=1&language=all&purchase_type=all&num_per_page=0`
+    );
+    return data.query_summary;
   },
 
   async search([term]) {
